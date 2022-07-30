@@ -14,3 +14,15 @@ zip -r packages.zip python
 # S3 업로드
 aws s3 cp packages.zip s3://<bucket-name>/
 ```
+
+## serverless framework
+```bash
+# Framework 설치
+npm i serverless -g
+
+# 배포 (serverless.yml 위치)
+sls deploy
+
+# 배포 제거
+sls remove
+```

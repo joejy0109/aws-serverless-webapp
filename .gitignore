@@ -1,3 +1,4 @@
-requirements.txt
 .venv
-package
+**/.terraform/*
+packages
+**/*.zip
