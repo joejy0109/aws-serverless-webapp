@@ -17,7 +17,7 @@ resource "aws_s3_bucket" "lambda_bucket" {
 data "archive_file" "these" {
   type = "zip"
 
-  for_each = var.lambdas
+  for_each = local.lambdas
 
   # source_dir  = local.source_root_path
   source_file = "${local.source_root_path}/${each.key}.py"
@@ -37,4 +37,25 @@ resource "aws_s3_object" "these" {
 
   # etag = filemd5(data.archive_file.these.output_path)
   etag = filemd5(each.value.output_path)
+}
+
+data "archive_file" "packages" {
+  type = "zip"
+
+  source_dir = "${local.parent_path}/packages"
+  output_path = "${local.parent_path}/${local.lambda_layer["filename"]}"
+}
+
+
+resource "aws_s3_object" "packages" {
+  bucket = aws_s3_bucket.lambda_bucket.id
+
+  key = basename(data.archive_file.packages.output_path)
+  source = data.archive_file.packages.output_path
+
+  # key    = "serverless-app.zip"
+  # source = data.archive_file.these.output_path
+
+  # etag = filemd5(data.archive_file.these.output_path)
+  etag = filemd5(data.archive_file.packages.output_path)
 }

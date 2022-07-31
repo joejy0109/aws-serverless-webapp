@@ -4,8 +4,10 @@ provider "aws" {
 
 
 locals {
-  runtime = "python3.8"
-  common_handler_name = "handler"
+  runtime = var.lambda_runtime
+  handler_name = var.lambda_common_handler_name
+  lambdas = var.lambdas
+  lambda_layer = var.lambda_layer
 
   module_path = abspath(path.module)
   parent_path = abspath("${local.module_path}/..")

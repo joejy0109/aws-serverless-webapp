@@ -2,7 +2,7 @@
 
 REQUIREMENTS="$(pwd)/requirements.txt"
 
-cd ./mutiple-handlers/package
+cd ./mutiple-handlers/packages
 
 pip install -r $REQUIREMENTS -t ./python/
 
