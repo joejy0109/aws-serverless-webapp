@@ -15,3 +15,9 @@ output "function_name" {
   # or
   # value =  toset([ for v in aws_lambda_function.these : v.function_name ])
 }
+
+output "api_endpoint" {
+  description = "Uri of the API Gateway."
+
+  value = aws_apigatewayv2_api.lambda.api_endpoint
+}

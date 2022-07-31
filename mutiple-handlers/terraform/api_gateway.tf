@@ -15,6 +15,7 @@ resource "aws_apigatewayv2_api" "lambda" {
   }
 }
 
+
 resource "aws_apigatewayv2_stage" "lambda" {
   api_id = aws_apigatewayv2_api.lambda.id
 
@@ -40,10 +41,11 @@ resource "aws_apigatewayv2_stage" "lambda" {
   }
 }
 
-resource "aws_apigatewayv2_integration" "these" {
-  api_id = aws_apigatewayv2_api.lambda.id
 
+resource "aws_apigatewayv2_integration" "these" {
   for_each = aws_lambda_function.these
+
+  api_id = aws_apigatewayv2_api.lambda.id
 
   # integration_uri    = aws_lambda_function.these.invoke_arn
   integration_uri    = each.value.invoke_arn
@@ -52,18 +54,17 @@ resource "aws_apigatewayv2_integration" "these" {
   integration_method = "POST"
   # integration_method = "ANY"
 
-  description = replace(each.value.function_name, "_", "-")
+  description = each.value.tags["route"]
 }
 
 
 resource "aws_apigatewayv2_route" "these" {
-  api_id = aws_apigatewayv2_api.lambda.id
-
   for_each = aws_apigatewayv2_integration.these
 
-  route_key = "ANY /${each.value.description}/{proxy+}"
+  api_id = aws_apigatewayv2_api.lambda.id
+
+  route_key = format("ANY %s", replace(each.value.description, "/:([\\w+?]+):/", "{$1}"))
   target    = "integrations/${each.value.id}"
-  # target    = "integrations/${aws_apigatewayv2_integration.these.id}"
 }
 
 
@@ -73,13 +74,14 @@ resource "aws_cloudwatch_log_group" "api_gw" {
   retention_in_days = 30
 }
 
+
 resource "aws_lambda_permission" "api_gw" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
   principal     = "apigateway.amazonaws.com"
-  source_arn = "${aws_apigatewayv2_api.lambda.execution_arn}/*/*"
+  source_arn    = "${aws_apigatewayv2_api.lambda.execution_arn}/*/*"
 
-  for_each = aws_lambda_function.these
+  for_each      = aws_lambda_function.these
   function_name = each.value.function_name
   # function_name = aws_lambda_function.these.function_name
 }

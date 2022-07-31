@@ -19,6 +19,10 @@ resource "aws_lambda_function" "these" {
   role = aws_iam_role.lambda_exec.arn
 
   layers = [aws_lambda_layer_version.lambda_layer.arn]  # maximum 5
+
+  tags = {
+    route = each.value
+  }
 }
 
 
