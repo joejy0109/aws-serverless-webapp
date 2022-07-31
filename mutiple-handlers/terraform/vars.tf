@@ -31,7 +31,7 @@ variable "lambda_layer" {
 variable "lambdas" {
   type = map(string)
   default = {
-    "cookbook" = "/cook/:menu+:",
+    "cookbook" = "/cook/:proxy+:",
     "helloworld" = "/:username:/hello"
   }
 }

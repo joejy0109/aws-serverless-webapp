@@ -42,8 +42,9 @@ resource "aws_s3_object" "these" {
 data "archive_file" "packages" {
   type = "zip"
 
-  source_dir = "${local.parent_path}/packages"
+  source_dir  = "${local.parent_path}/packages/"
   output_path = "${local.parent_path}/${local.lambda_layer["filename"]}"
+
 }
 
 
@@ -52,7 +53,7 @@ resource "aws_s3_object" "packages" {
 
   key = basename(data.archive_file.packages.output_path)
   source = data.archive_file.packages.output_path
-
+  
   # key    = "serverless-app.zip"
   # source = data.archive_file.these.output_path
 

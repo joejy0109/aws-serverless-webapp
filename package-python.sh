@@ -6,10 +6,5 @@ cd ./mutiple-handlers/packages
 
 pip install -r $REQUIREMENTS -t ./python/
 
-rm -rf ./python/*dist-info
-
-if [ -z "$(which zip)" ]; then
-  sudo apt install -y zip
-fi
-
-zip -r python-packages.zip ./python
+find . -type d -name "*dist-info" -exec rm -rf "{}" +
+find . -type d -name "__pycache__" -exec rm -rf "{}" +
