@@ -4,6 +4,8 @@ provider "aws" {
 
 
 locals {
+  stage = var.apigw_stage
+
   runtime = var.lambda_runtime
   handler_name = var.lambda_common_handler_name
   lambdas = var.lambdas

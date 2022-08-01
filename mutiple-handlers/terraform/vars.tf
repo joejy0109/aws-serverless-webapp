@@ -8,6 +8,12 @@ variable "aws_region" {
 }
 
 
+variable "apigw_stage" {
+  type = string
+  default = "$default"
+}
+
+
 variable "lambda_runtime" {
   type = string
   default = "python3.8"
@@ -31,7 +37,8 @@ variable "lambda_layer" {
 variable "lambdas" {
   type = map(string)
   default = {
-    "cookbook" = "/cook/:proxy+:",
-    "helloworld" = "/:username:/hello"
+    "cookbook" = "/cook",
+    "helloworld" = "/hello",
+    "user" = "/user"
   }
 }

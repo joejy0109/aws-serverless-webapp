@@ -19,7 +19,7 @@ resource "aws_apigatewayv2_api" "lambda" {
 resource "aws_apigatewayv2_stage" "lambda" {
   api_id = aws_apigatewayv2_api.lambda.id
 
-  name        = "v1"
+  name        = local.stage
   auto_deploy = true
 
   access_log_settings {
@@ -63,7 +63,9 @@ resource "aws_apigatewayv2_route" "these" {
 
   api_id = aws_apigatewayv2_api.lambda.id
 
-  route_key = format("ANY %s", replace(each.value.description, "/:([\\w+?]+):/", "{$1}"))
+  # route_key = format("ANY %s", replace(each.value.description, "/:([\\w+?]+):/", "{$1}"))
+  route_key = "ANY ${each.value.description}/{proxy+}"
+  
   target    = "integrations/${each.value.id}"
 }
 
@@ -83,5 +85,4 @@ resource "aws_lambda_permission" "api_gw" {
 
   for_each      = aws_lambda_function.these
   function_name = each.value.function_name
-  # function_name = aws_lambda_function.these.function_name
 }

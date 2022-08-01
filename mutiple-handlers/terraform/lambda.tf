@@ -29,7 +29,6 @@ resource "aws_lambda_function" "these" {
 resource "aws_cloudwatch_log_group" "these" {
   for_each = aws_lambda_function.these
 
-  # name = "/aws/lambda/${aws_lambda_function.these.function_name}"
   name = "/aws/lambda/${each.value.function_name}"
 
   retention_in_days = 30
