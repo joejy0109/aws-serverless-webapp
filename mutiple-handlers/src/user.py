@@ -1,6 +1,5 @@
 import json
-from multiprocessing.dummy import Array
-
+from flask import Flask, make_response
 
 users = [
     {
@@ -23,18 +22,36 @@ users = [
     }
 ]
 
-
 def handler(event, context):
-    return {
-        "ctx": json.dumps(context)
-    }
+    # return {"statusCode": 200, "body": "121212121"}
+    
+    
+    if 'httpMethod' not in event:
+        return _res(400, {"error" : "This is not a http request"})
+    
+    verb = event["httpMethod"]
+    if verb == "GET":
+        user_id = event["pathParameters"]["proxy"]
+        if user_id == '':
+            return _res(200, _get_users())
+        return _res(200, _get_user(user_id))
+
+    return _res(400, { "error":"Invalid a request."})
 
 
 def _get_user(user_id: str) -> dict:
     result = [u for u in users if u.get('user_id') == user_id]
-    if len(result) > 0:
-        return result[0]
+    return result[0] if len(result) > 0 else {}
 
 
-def _get_users() -> Array(dict):
-    return users
+def _get_users() -> dict:
+    return {
+        "list": users
+    }
+
+
+def _res(code, body):
+    return {
+        "statusCode": code,
+        "body": json.dumps(body)
+    }
