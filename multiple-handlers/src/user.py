@@ -1,6 +1,6 @@
 import json
 from flask import Flask, make_response
-from my_comm.my_comm.my_response import res
+from my_comm.my_response import res
 
 users = [
     {
@@ -23,12 +23,13 @@ users = [
     }
 ]
 
+
 def handler(event, context):
     # return {"statusCode": 200, "body": "121212121"}
-    
+
     if 'httpMethod' not in event:
-        return res(400, {"error" : "This is not a http request"})
-    
+        return res(400, {"error": "This is not a http request"})
+
     verb = event["httpMethod"]
     if verb == "GET":
         user_id = event["pathParameters"]["proxy"]
@@ -36,7 +37,7 @@ def handler(event, context):
             return res(200, _get_users())
         return res(200, _get_user(user_id))
 
-    return res(400, { "error":"Invalid a request."})
+    return res(400, {"error": "Invalid a request."})
 
 
 def _get_user(user_id: str) -> dict:

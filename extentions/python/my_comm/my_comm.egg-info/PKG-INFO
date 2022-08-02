@@ -1,11 +1,12 @@
-Metadata-Version: 1.2
+Metadata-Version: 2.1
 Name: my-comm
-Version: 0.0.0.1
+Version: 0.0.1
 Summary: The package for testing
 Home-page: https://github.com/joejy0109
 Author: jeongyong.jo
 Author-email: joejy0109@gmail.com
 License: MIT
-Description: UNKNOWN
-Platform: UNKNOWN
 Requires-Python: >=3
+Description-Content-Type: text/markdown
+
+# 테스트용 임시 사용자 패키지

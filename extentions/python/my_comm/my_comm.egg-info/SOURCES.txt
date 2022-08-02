@@ -1,8 +1,8 @@
+README.md
 setup.py
 my_comm/__init__.py
 my_comm/my_response.py
 my_comm.egg-info/PKG-INFO
 my_comm.egg-info/SOURCES.txt
 my_comm.egg-info/dependency_links.txt
-my_comm.egg-info/requires.txt
 my_comm.egg-info/top_level.txt
