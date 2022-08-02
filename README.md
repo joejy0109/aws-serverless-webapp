@@ -9,10 +9,10 @@
 cd package
 
 # zip으로 아카이브 생성
-zip -r packages.zip python
+zip -r python_packages.zip python
 
 # S3 업로드
-aws s3 cp packages.zip s3://<bucket-name>/
+aws s3 cp python_packages.zip s3://<bucket-name>/
 ```
 
 ## serverless framework
