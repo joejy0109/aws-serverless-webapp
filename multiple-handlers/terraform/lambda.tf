@@ -14,7 +14,7 @@ resource "aws_lambda_function" "these" {
   handler = "${each.key}.${local.handler_name}"
 
   # source_code_hash = data.archive_file.these.output_base64sha256
-  source_code_hash = filebase64sha256("${local.parent_path}/${each.key}.zip")
+  source_code_hash = filebase64sha256("${local.archive_output_path}/${each.key}.zip")
 
   role = aws_iam_role.lambda_exec.arn
 

@@ -21,7 +21,7 @@ data "archive_file" "these" {
 
   # source_dir  = local.source_root_path
   source_file = "${local.source_root_path}/${each.key}.py"
-  output_path = "${local.parent_path}/${each.key}.zip"
+  output_path = "${local.archive_output_path}/${each.key}.zip"
 }
 
 resource "aws_s3_object" "these" {
@@ -43,7 +43,7 @@ data "archive_file" "packages" {
   type = "zip"
 
   source_dir  = "${local.parent_path}/packages/"
-  output_path = "${local.parent_path}/${local.lambda_layer["filename"]}"
+  output_path = "${local.archive_output_path}/${local.lambda_layer["filename"]}"
 
 }
 
