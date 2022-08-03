@@ -42,7 +42,7 @@ resource "aws_s3_object" "these" {
 data "archive_file" "packages" {
   type = "zip"
 
-  source_dir  = "${local.parent_path}/packages/"
+  source_dir  = "${local.packages_root_path}"
   output_path = "${local.archive_output_path}/${local.lambda_layer["filename"]}"
 
 }

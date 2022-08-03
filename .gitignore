@@ -1,6 +1,6 @@
 .venv
 **/.terraform/*
 **/*.zip
-packages
 node_modules
+.packages
 .output

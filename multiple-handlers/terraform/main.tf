@@ -14,5 +14,6 @@ locals {
   module_path = abspath(path.module)
   parent_path = abspath("${local.module_path}/..")
   source_root_path = abspath("${local.parent_path}/src")
+  packages_root_path = abspath("${local.parent_path}/.packages")
   archive_output_path = abspath("${local.parent_path}/.output")
 }
