@@ -4,11 +4,12 @@
 ```bash
 # AWS Lambda layer에 등록할 런타임 계층에 맞도록 설치
 # 참고: https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/configuration-layers.html#configuration-layers-compile
-(.venv) pip install -r requirements.txt -t package/python/
+(.venv) pip install -r ./requirements.txt -t $(pwd)/mutiple-handlers/.package/python/
 
 cd package
 
 # zip으로 아카이브 생성
+cd $(pwd)/multiple-handlers/.packages
 zip -r python_packages.zip python
 
 # S3 업로드
