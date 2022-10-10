@@ -2,7 +2,7 @@
 # API Gateway
 ##
 resource "aws_apigatewayv2_api" "lambda" {
-  name          = "serverless_lambda_gw"
+  name          = "${local.prefix}-serverless-lambda-gw"
   protocol_type = "HTTP"
 
   cors_configuration {

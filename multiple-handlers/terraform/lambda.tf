@@ -4,7 +4,7 @@
 resource "aws_lambda_function" "these" {
   for_each = local.lambdas
 
-  function_name = each.key
+  function_name = "${local.prefix}-${each.key}"
 
   s3_bucket = aws_s3_bucket.lambda_bucket.id
   # s3_key    = aws_s3_object.serverless_app.key
@@ -35,7 +35,7 @@ resource "aws_cloudwatch_log_group" "these" {
 }
 
 resource "aws_iam_role" "lambda_exec" {
-  name = "serverless_lambda_iam_role"
+  name = "${local.prefix}_serverless_lambda_iam_role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"

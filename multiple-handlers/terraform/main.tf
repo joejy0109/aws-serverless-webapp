@@ -1,9 +1,6 @@
-provider "aws" {
-  region = var.aws_region
-}
-
-
 locals {
+  prefix = var.prefix
+
   stage = var.apigw_stage
 
   runtime = var.lambda_runtime
@@ -16,4 +13,12 @@ locals {
   source_root_path = abspath("${local.parent_path}/src")
   packages_root_path = abspath("${local.parent_path}/.packages")
   archive_output_path = abspath("${local.parent_path}/.output")
+}
+
+resource "random_string" "suffix" {
+  length           = 8
+  lower            = true
+  upper            = false
+  special          = false
+  override_special = "/@£$"
 }

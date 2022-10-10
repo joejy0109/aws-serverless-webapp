@@ -1,17 +1,11 @@
-# Source, S3 upload
-resource "random_pet" "lambda_bucket_name" {
-  prefix = "my-serverless-func"
-  length = 4
+resource "aws_s3_bucket" "lambda_bucket" {
+  bucket = "${local.prefix}-api-${random_string.suffix.result}"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_acl" "lambda_bucket" {
   bucket = aws_s3_bucket.lambda_bucket.id
   acl = "private"
-}
-
-resource "aws_s3_bucket" "lambda_bucket" {
-  bucket = random_pet.lambda_bucket_name.id
-  force_destroy = true
 }
 
 data "archive_file" "these" {
@@ -44,7 +38,6 @@ data "archive_file" "packages" {
 
   source_dir  = "${local.packages_root_path}"
   output_path = "${local.archive_output_path}/${local.lambda_layer["filename"]}"
-
 }
 
 

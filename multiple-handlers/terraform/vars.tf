@@ -1,10 +1,16 @@
 # Input variable definitions
 
+variable "prefix" {
+  description = "A prefix of the resource name"
+  type = string
+  default = "jeongyong"
+}
+
 variable "aws_region" {
   description = "AWS region for all resources."
 
   type    = string
-  default = "ap-northeast-1"
+  default = "ap-northeast-2"
 }
 
 
