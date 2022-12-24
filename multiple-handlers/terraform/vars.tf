@@ -2,8 +2,8 @@
 
 variable "prefix" {
   description = "A prefix of the resource name"
-  type = string
-  default = "jeongyong"
+  type        = string
+  default     = "jeongyong"
 }
 
 variable "aws_region" {
@@ -15,18 +15,18 @@ variable "aws_region" {
 
 
 variable "apigw_stage" {
-  type = string
+  type    = string
   default = "$default"
 }
 
 
 variable "lambda_runtime" {
-  type = string
+  type    = string
   default = "python3.8"
 }
 
 variable "lambda_common_handler_name" {
-  type = string
+  type    = string
   default = "handler"
 }
 
@@ -34,7 +34,7 @@ variable "lambda_layer" {
 
   type = map(string)
   default = {
-    name = "serverless-python-layer"
+    name     = "serverless-python-layer"
     filename = "python-packages.zip"
   }
 }
@@ -43,8 +43,17 @@ variable "lambda_layer" {
 variable "lambdas" {
   type = map(string)
   default = {
-    "cookbook" = "/cook",
-    "helloworld" = "/hello",
-    "user" = "/user"
+    "cookbook"   = "/cookbooks",
+    "helloworld" = "/helloworld",
+    "user"       = "/users"
+  }
+}
+
+variable "default_tags" {
+  type = map(string)
+  default = {
+    "target" : "KDB",
+    "owner" : "jeongyong.jo"
+    "env" : "poc"
   }
 }

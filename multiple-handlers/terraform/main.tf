@@ -3,16 +3,18 @@ locals {
 
   stage = var.apigw_stage
 
-  runtime = var.lambda_runtime
+  runtime      = var.lambda_runtime
   handler_name = var.lambda_common_handler_name
-  lambdas = var.lambdas
+  lambdas      = var.lambdas
   lambda_layer = var.lambda_layer
 
-  module_path = abspath(path.module)
-  parent_path = abspath("${local.module_path}/..")
-  source_root_path = abspath("${local.parent_path}/src")
-  packages_root_path = abspath("${local.parent_path}/.packages")
+  module_path         = abspath(path.module)
+  parent_path         = abspath("${local.module_path}/..")
+  source_root_path    = abspath("${local.parent_path}/src")
+  packages_root_path  = abspath("${local.parent_path}/.packages")
   archive_output_path = abspath("${local.parent_path}/.output")
+
+  tags = var.default_tags
 }
 
 resource "random_string" "suffix" {
