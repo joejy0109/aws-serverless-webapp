@@ -2,34 +2,13 @@ import base64
 import datetime
 import json
 import boto3
+from boto3.dynamodb.conditions import Key, Attr
 from flask import Flask, make_response
 from my_comm.my_response import res
 
 
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('Users')
-
-
-users = [
-    {
-        "user_id": "child12",
-        "user_name": "wolber Rin",
-        "age": 12,
-        "dept": "Develer"
-    },
-    {
-        "user_id": "flask999",
-        "user_name": "flank jin",
-        "age": 36,
-        "dept": "QA"
-    },
-    {
-        "user_id": "oldman",
-        "user_name": "val killmer",
-        "age": 64,
-        "dept": "operation"
-    }
-]
 
 
 def handler(event, context):
@@ -49,7 +28,7 @@ def handler(event, context):
     if verb == 'POST':
         # payload = base64.b64decode(event['body']).decode('utf-8')
         # return res(200, {"body": json.loads(payload)})
-        return res(200, {'result': _post_user()})
+        return res(200, {'response': _post_user()})
     
     if verb == 'PUT':
         return res(200, {'THIS': 'PUT'})
@@ -61,27 +40,32 @@ def handler(event, context):
 
 
 def _get_user(user_id: str) -> dict:
-    # result = [u for u in users if u.get('user_id') == user_id]
-    # return result[0] if len(result) > 0 else {}
-    result = table.get_item(Key = {
+    # response = [u for u in users if u.get('user_id') == user_id]
+    # return response[0] if len(response) > 0 else {}
+    response = table.get_item(Key = {
         'UserId': user_id
     })
-
-    return result['Item']
+    if 'Item' in response:
+        return response['Item']
+    return {}
 
 
 def _get_users() -> dict:
-    # return {
-    #     "list": users
-    # }
-    result = table.query(
-        KeyConditionExpression=Key('UserId')
-    )
-    return result['items']
-
+    # response = table.query(
+    #     KeyConditionExpression=Key('UserId')
+    # )
+    response = table.scan()
+    items = response['Items']
+    while 'LastEvaluatedKey' in response:
+        print(response['LastEvaluatedKey'])
+        response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
+        items.extend(response['Items'])
+    print(items)
+    return items
+   
 
 def _post_user() -> dict:
-    result = table.put_item(
+    response = table.put_item(
         {
             'UserId': 'joejy0109@gmail.com',
             'Name': '조정용',
@@ -91,11 +75,11 @@ def _post_user() -> dict:
             'CreateAt': datetime.datetime.now().isoformat()
         }
     )
-    return result
+    return response
 
 
 def _put_user(item) -> dict:
-    result = table.update_item(key={
+    response = table.update_item(key={
         'UserId': item['UserId']
     },
     UpdateExpression = 'Set Age = :Age, Gender = :Gender',
@@ -103,11 +87,11 @@ def _put_user(item) -> dict:
         'Age': 43,
         'Gender': 'male',
     })
-    return result
+    return response
 
 
 def _delete_user(user_id:str) -> dict:
-    result = table.delete_item(Key={
+    response = table.delete_item(Key={
         'UserId': user_id
     })
-    return result
+    return response

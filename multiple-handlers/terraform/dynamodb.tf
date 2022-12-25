@@ -10,6 +10,17 @@ resource "aws_dynamodb_table" "users" {
     type = "S"
   }
 
+  server_side_encryption {
+    enabled = true
+  }
+
+  # lifecycle {
+  #   ignore_changes = [
+  #     "write_capacity",
+  #     "read_capacity"
+  #   ]
+  # }
+
   tags = merge(local.tags, {
     "db" : "dynamo"
   })
