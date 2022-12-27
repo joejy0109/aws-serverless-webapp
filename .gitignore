@@ -1,8 +1,8 @@
+venv
 .venv
+__pycache__
 **/.terraform/*
 **/*.zip
 node_modules
 .packages
 .output
-
-__pycache__
