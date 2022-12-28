@@ -1,5 +1,11 @@
 # AWS Multiple Lambdas with API Gateway + DaynamoDB
 
+## 기본 요구사항
+
+- python >= 3.6
+- terraform >= 1.2
+- AWs service authentication (e.g. ~/.aws/credentails)
+
 ## 외부 라이브러리 패키징 (비즈니스 Tier 구성도 동일)
 
 다중 람다 모듈에서 공용으로 사용하기 위해 레이어(Layer) 계층에 위치할 라이브러리를 패키징합니다.
@@ -78,6 +84,24 @@ variable "lambdas" {
 
 - 소스 모듈 위치: `multiple-handlers/src/`
 - 확장 모듈 위치: `extentions/python/`
+
+
+## Provisioning
+
+```bash
+cd multiple-handlers/terraform
+
+# 초기화
+terraform init
+
+# 구성 계획 검사
+terraform plan
+
+# 구성 적용
+terraform apply 
+# or
+terraform apply -auto-approve
+```
 
 ## Example call after provisioning
 
