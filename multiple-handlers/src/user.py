@@ -13,10 +13,6 @@ table = dynamodb.Table('Users')
 
 
 def handler(event, context):
-    # return {"statusCode": 200, "body": "121212121"}
-
-    print(event)
-    print(context)
 
     if 'httpMethod' not in event:
         return res(400, {"error": "This is not a http request"})
@@ -53,8 +49,6 @@ def handler(event, context):
 
 
 def _get_user(user_id: str) -> dict:
-    # response = [u for u in users if u.get('user_id') == user_id]
-    # return response[0] if len(response) > 0 else {}
     response = table.get_item(Key = {
         'UserId': user_id
     })
@@ -63,10 +57,7 @@ def _get_user(user_id: str) -> dict:
     return {}
 
 
-def _get_users() -> dict:
-    # response = table.query(
-    #     KeyConditionExpression=Key('UserId').eq('')
-    # )
+def _get_users() -> dict:  
     response = table.scan()
     items = response['Items']
     while 'LastEvaluatedKey' in response:
@@ -77,15 +68,7 @@ def _get_users() -> dict:
     return items
    
 
-def _put_user(item) -> dict:
-    # item = {
-    #     'UserId': 'joejy0109@gmail.com',
-    #     'Name': '베트맨',
-    #     'Age': 43,
-    #     'Gender': 'male',
-    #     'Address': '서울시 서초구 강남대로 327',
-    #     'CreateAt': datetime.datetime.now().isoformat()
-    # }
+def _put_user(item) -> dict:   
     item['CreatedAt'] = datetime.datetime.now().isoformat()
     response = table.put_item(Item=item)
     return response
